@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="rate" default="5.0" />
+
+    <arg name="init_x" default="0.0" />
+    <arg name="init_y" default="0.0" />
+    <arg name="init_theta" default="0.0" />
+    <arg name="robot_id" default="robile" />
+
+    <arg name="model" default="robile"/>
+    <arg name="model_path" default="$(find robile_sim)/description/xacro/$(arg model).xacro"/>
+
+    <!-- Load the robot description from the urdf model -->
+	<group ns="$(arg robot_id)">
+        <param name="tf_prefix" value="$(arg robot_id)" />
+        <param name="robot_description"
+               command="rosrun xacro xacro '$(arg model_path)'
+                        namespace:=$(arg robot_id)" />
+
+        <node pkg="joint_state_publisher" name="joint_state_publisher"
+              type="joint_state_publisher">
+            <param name="rate" value="10"/>
+        </node>
+
+        <node pkg="robot_state_publisher" name="robot_state_publisher"
+              type="robot_state_publisher">
+            <param name="publish_frequency" value="10"/>
+        </node>
+
+        <!-- Spawn the robot using the arguments and robot description -->
+        <node pkg="gazebo_ros" name="spawn_urdf_model" type="spawn_model"
+              args="-param robot_description -urdf -model $(arg robot_id)
+                    -x $(arg init_x) -y $(arg init_y) -z 0.0 -Y $(arg init_theta)" />
+	</group>
+</launch>

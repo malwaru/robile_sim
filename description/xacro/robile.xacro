@@ -1,0 +1,190 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro" name="robile" >
+
+    <xacro:property name="namespace" value="$(arg namespace)"/>
+    <xacro:arg name="namespace" default="robile"/>
+
+    <xacro:property name="base_length" value="0.699" />
+    <xacro:property name="base_width" value="0.466" />
+    <xacro:property name="base_thickness" value="0.233" />
+
+    <xacro:property name="top_plate_length" value="0.225" />
+    <xacro:property name="top_plate_width" value="0.225" />
+    <xacro:property name="top_plate_thickness" value="0.025" />
+
+    <xacro:property name="wheel_radius" value="0.05" />
+    <xacro:property name="wheel_mass" value="1.0" />
+    <xacro:property name="base_mass" value="8.0" />
+    <xacro:property name="inertia_base" value="0.5" />
+    <xacro:property name="inertia_wheels" value="0.001" />
+
+    <material name="silver">
+        <color rgba="0.6 0.6 0.6 1.0"/>
+    </material>
+
+    <material name="black">
+        <color rgba="0.0 0.0 0.0 1.0"/>
+    </material>
+
+    <xacro:macro name="sphere_inertia" params="mass radius">
+        <inertial>
+            <mass value="${mass}" />
+            <inertia ixx="${(mass*0.4)*(radius*radius)}"
+                     iyy="${(mass*0.4)*(radius*radius)}"
+                     iyz="0.0" ixy="0.0" ixz="0.0"
+                     izz="${(mass*0.4)*(radius*radius)}" />
+        </inertial>
+    </xacro:macro>
+
+    <xacro:macro name="robile_wheel" params="name parent *origin mass radius material_name">
+        <joint name="${name}_joint" type="fixed">
+            <xacro:insert_block name="origin" />
+            <parent link="${parent}_link"/>
+            <child link="${name}_link"/>
+        </joint>
+        <link name="${name}_link">
+            <visual>
+                <geometry>
+                    <sphere radius="${radius}" />
+                </geometry>
+                <material name="${material_name}"/>
+            </visual>
+            <collision>
+                <geometry>
+                    <sphere radius="${radius}" />
+                </geometry>
+            </collision>
+            <xacro:sphere_inertia mass="${mass}" radius="${radius}" />
+        </link>
+        <gazebo reference="${name}_link">
+	    <gravity>0</gravity>
+            <mu1>0.0</mu1>
+            <mu2>0.0</mu2>
+            <material>Gazebo/RustySteel</material>
+        </gazebo>
+    </xacro:macro>
+
+    <xacro:macro name="top_plate" params="pos x y z color">
+	<joint name="${pos}_joint" type="fixed">
+	<origin xyz="${x} ${y} ${z + top_plate_thickness/2}" rpy="0 0 0"/>
+	<parent link="base_body_link"/>
+	<child link="${pos}_link"/>
+	</joint>
+
+	<link name="${pos}_link">
+	<visual>
+	    <geometry>
+		<box size="${top_plate_length} ${top_plate_width} ${top_plate_thickness}"/>
+	    </geometry>
+	    <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+	    <material name="silver"/>
+	</visual>      
+	<collision>
+	    <geometry>
+		<box size="${top_plate_length} ${top_plate_width} ${top_plate_thickness}"/>
+	    </geometry>
+	    <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+	</collision>      
+	</link>
+
+	<gazebo reference="${pos}_link">
+	<material>Gazebo/${color}</material>
+	</gazebo>
+
+    </xacro:macro>
+
+    <link name="base_link" />
+
+    <joint name="base_body_joint" type="fixed">
+        <origin xyz="0.0 0.0 ${wheel_radius*2 + base_thickness*0.5}" rpy="0 0 0"/>
+        <parent link="base_link"/>
+        <child link="base_body_link"/>
+    </joint>
+
+    <link name="base_body_link">
+        <visual>
+            <geometry>
+                <box size="${base_length} ${base_width} ${base_thickness}"/>
+            </geometry>
+            <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+            <material name="silver"/>
+        </visual>      
+        <collision>
+            <geometry>
+                <box size="${base_length} ${base_width} ${base_thickness}"/>
+            </geometry>
+            <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+        </collision>      
+        <inertial>
+          <mass value="${base_mass}"/>
+          <inertia ixx="${inertia_base}" ixy="0.0" ixz="0.0" iyy="${inertia_base}" iyz="0.0" izz="${inertia_base}"/>
+        </inertial>
+    </link>
+
+    <gazebo reference="base_body_link">
+	<gravity>0</gravity>
+        <material>Gazebo/GreyTransparent</material>
+    </gazebo>
+
+    <xacro:top_plate pos="fr" x="0.233" y="-0.1165" z="0.1165" color="Blue"/>
+    <xacro:top_plate pos="fl" x="0.233" y="0.1165" z="0.1165" color="Blue"/>
+    <xacro:top_plate pos="mr" x="0." y="-0.1165" z="0.1165" color="Yellow"/>
+    <xacro:top_plate pos="ml" x="0." y="0.1165" z="0.1165" color="Yellow"/>
+    <xacro:top_plate pos="br" x="-0.233" y="-0.1165" z="0.1165" color="Blue"/>
+    <xacro:top_plate pos="bl" x="-0.233" y="0.1165" z="0.1165" color="Blue"/>
+
+
+    <!-- ====== -->
+    <!-- WHEELS -->
+    <!-- ====== -->
+    <xacro:robile_wheel name="left_rear_wheel" parent="base_body" mass="${wheel_mass}"
+                       radius="${wheel_radius}" material_name="black">
+	<origin xyz="0.233 0.1165 ${-base_thickness*0.5}" rpy="0 0 0"/>
+    </xacro:robile_wheel>
+
+    <xacro:robile_wheel name="right_rear_wheel" parent="base_body" mass="${wheel_mass}"
+                       radius="${wheel_radius}" material_name="black">
+	<origin xyz="-0.233 0.1165 ${-base_thickness*0.5}" rpy="0 0 0"/>
+    </xacro:robile_wheel>
+
+    <xacro:robile_wheel name="left_front_wheel" parent="base_body" mass="${wheel_mass}"
+                       radius="${wheel_radius}" material_name="black">
+	<origin xyz="-0.233 -0.1165 ${-base_thickness*0.5}" rpy="0 0 0"/>
+    </xacro:robile_wheel>
+
+    <xacro:robile_wheel name="right_front_wheel" parent="base_body" mass="${wheel_mass}" 
+                       radius="${wheel_radius}" material_name="black">
+	<origin xyz="0.233 -0.1165 ${-base_thickness*0.5}" rpy="0 0 0"/>
+    </xacro:robile_wheel>
+
+    <!-- ===== -->
+    <!-- LASER -->
+    <!-- ===== -->
+    <xacro:arg name="laser_enabled" default="true" />
+    <xacro:include filename="$(find robile_sim)/description/xacro/sick_lms1xx_mount.urdf.xacro" />
+
+    <xacro:if value="$(arg laser_enabled)">
+       <xacro:sick_lms1xx_mount prefix="base"/>
+       <xacro:sick_lms1xx frame="base_laser" topic="scan" robot_namespace="$(arg namespace)"/>
+
+       <joint name="laser_mount_joint" type="fixed">
+         <origin xyz="0.4 0.0 0.12" rpy="0 0 0" />
+         <parent link="base_link" />
+         <child link="base_laser_mount" />
+       </joint>
+    </xacro:if>
+
+    <!-- ====================== -->
+    <!-- HOLONOMIC DRIVE PLUGIN -->
+    <!-- ====================== -->
+    <gazebo>
+        <plugin name="${namespace}_controller" filename="librobile_control_plugin.so">
+            <commandTopic>${namespace}/cmd_vel</commandTopic>
+            <odometryTopic>${namespace}/odom</odometryTopic>
+            <odometryFrame>${namespace}/odom</odometryFrame>
+            <odometryRate>20.0</odometryRate>
+            <robotBaseFrame>${namespace}/base_link</robotBaseFrame>
+        </plugin>
+    </gazebo>
+
+</robot>
