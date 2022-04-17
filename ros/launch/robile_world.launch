@@ -9,9 +9,9 @@
     <arg name="start_rviz" default="true"/>
 
     <arg name="global_frame" default="$(arg robot_id)/odom"/>
-    <arg name="world_model_name" default="hall"/>
+    <arg name="world_model_name" default="two_rooms"/>
 
-    <!-- Gazebo server -->
+    <!-- Gazebo Server -->
     <include file="$(find gazebo_ros)/launch/empty_world.launch">
         <arg name="debug" value="$(arg debug)" />
         <arg name="gui" value="$(arg gui)" />
@@ -46,6 +46,7 @@
               args="-d $(find robile_sim)/ros/config/robile_env.rviz" />
     </group>
 
+    <!-- Laser Filter -->
     <node pkg="laser_filters" type="scan_to_scan_filter_chain"
 	name="laser_filter">
 	<rosparam command="load" file="$(find robile_sim)/ros/config/laser_config.yaml" />

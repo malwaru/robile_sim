@@ -177,9 +177,9 @@ Visualization Manager:
       Enabled: true
       Invert Rainbow: false
       Max Color: 255; 255; 255
-      Max Intensity: 999999
+      Max Intensity: 9.80908925e-45
       Min Color: 0; 0; 0
-      Min Intensity: 1.61149323e-43
+      Min Intensity: -1.5237776e-36
       Name: LaserScan
       Position Transformer: XYZ
       Queue Size: 10
@@ -187,7 +187,7 @@ Visualization Manager:
       Size (Pixels): 3
       Size (m): 0.0299999993
       Style: Flat Squares
-      Topic: robile/scan
+      Topic: /scan_filtered
       Unreliable: false
       Use Fixed Frame: true
       Use rainbow: true
@@ -217,25 +217,25 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/ThirdPersonFollower
-      Distance: 2.836797
+      Distance: 9.26139736
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.0599999987
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 0.0843045413
-        Y: -0.141460896
+        X: 0.25256595
+        Y: -2.49795103
         Z: 3.87371415e-07
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.0500000007
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.00999999978
-      Pitch: 0.149796069
+      Pitch: 0.859793961
       Target Frame: <Fixed Frame>
       Value: ThirdPersonFollower (rviz)
-      Yaw: 2.85363126
+      Yaw: 4.1136713
     Saved: ~
 Window Geometry:
   Displays:
