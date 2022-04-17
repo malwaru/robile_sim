@@ -26,7 +26,7 @@
         <param name="world_description"
                command="rosrun xacro xacro '$(arg world_model)'" />
 
-        <!-- spawn uploaded world model -->
+        <!-- Spawn Uploaded World Model -->
         <node pkg="gazebo_ros" name="gazebo_world_model" type="spawn_model" respawn="false" output="screen"
               args="-urdf -param world_description -model world -x 0.0 -y 0.0 -z 0.0" />
     </group>
