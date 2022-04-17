@@ -31,11 +31,18 @@
               args="-urdf -param world_description -model world -x 0.0 -y 0.0 -z 0.0" />
     </group>
 
+    <!-- Run the Map Server -->
+    <arg name="map_file" default="$(find robile_sim)/world_description/occupancy_grids/$(arg world_model_name).yaml"/>
+    <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)" />
+
+    <node pkg="tf" type="static_transform_publisher" name="odom_to_map"
+    args="0 0 0 0 0 0 /map $(arg robot_id)/odom 100" />
+
     <!-- Robot -->
     <include file="$(find robile_sim)/ros/launch/robile.launch">
         <arg name="model" value="robile"/>
         <arg name="robot_id" value="$(arg robot_id)" />
-        <arg name="init_x" value="0.0" />
+        <arg name="init_x" value="4.0" />
         <arg name="init_y" value="0.0" />
         <arg name="init_theta" value="0.0" />
     </include>
