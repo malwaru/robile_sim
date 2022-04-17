@@ -46,4 +46,10 @@
               args="-d $(find robile_sim)/ros/config/robile_env.rviz" />
     </group>
 
+    <node pkg="laser_filters" type="scan_to_scan_filter_chain"
+	name="laser_filter">
+	<rosparam command="load" file="$(find robile_sim)/ros/config/laser_config.yaml" />
+	<remap from="scan" to="/robile/scan" />
+    </node>
+
 </launch>

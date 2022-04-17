@@ -90,12 +90,42 @@ Visualization Manager:
           Alpha: 1
           Show Axes: false
           Show Trail: false
+        bl_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        br_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        fl_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        fr_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
         left_front_wheel_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
         left_rear_wheel_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        ml_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        mr_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -149,13 +179,13 @@ Visualization Manager:
       Max Color: 255; 255; 255
       Max Intensity: 999999
       Min Color: 0; 0; 0
-      Min Intensity: -4.923316e-22
+      Min Intensity: 1.61149323e-43
       Name: LaserScan
       Position Transformer: XYZ
       Queue Size: 10
       Selectable: true
       Size (Pixels): 3
-      Size (m): 0.0500000007
+      Size (m): 0.0299999993
       Style: Flat Squares
       Topic: robile/scan
       Unreliable: false
@@ -187,7 +217,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/ThirdPersonFollower
-      Distance: 1.52681065
+      Distance: 2.836797
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.0599999987
         Stereo Focal Distance: 1
@@ -202,10 +232,10 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.00999999978
-      Pitch: 0.439795703
+      Pitch: 0.149796069
       Target Frame: <Fixed Frame>
       Value: ThirdPersonFollower (rviz)
-      Yaw: 4.78043795
+      Yaw: 2.85363126
     Saved: ~
 Window Geometry:
   Displays:
